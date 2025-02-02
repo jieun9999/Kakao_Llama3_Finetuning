@@ -37,11 +37,11 @@ def load_and_process_data(dataset_dir):
     return Dataset.from_dict({"dialogue": [conversation["dialogue"] for conversation in all_data]})
 
 # Training 데이터 경로
-dataset_dir_train = "/workspace/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/1.train" 
+dataset_dir_train = "/workspace/2.per_subject_text_daily_conversation_data/proprocessed_data/1.train" 
 dataset_train = load_and_process_data(dataset_dir_train)
 
 # Validation 데이터 경로
-dataset_dir_val = "/workspace/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/2.validation"
+dataset_dir_val = "/workspace/2.per_subject_text_daily_conversation_data/proprocessed_data/2.validation"
 dataset_val = load_and_process_data(dataset_dir_val)
 # print(dataset_train[0])  # 첫 번째 샘플 출력
 
@@ -104,7 +104,7 @@ training_args = TrainingArguments(
     overwrite_output_dir=True,  # 기존 결과 덮어쓰기
     dataloader_num_workers=4,  # 데이터 로드 워커 수
 
-    num_train_epochs=1,  # 훈련 에포크 수
+    num_train_epochs=3,  # 훈련 에포크 수
     per_device_train_batch_size=8,  # GPU 당 한 번에 1개의 샘플을 처리 (한 번에 처리할 시퀀스의 개수를 정의)
     gradient_accumulation_steps=8,  # 작은 배치를 여러 번 처리한 뒤, 그 결과를 누적하여 마치 큰 배치를 처리한 것처럼 동작하도록 하는 기법 (메모리 최적화 방법)
     fp16= True,
