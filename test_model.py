@@ -25,7 +25,7 @@ except Exception as e:
     exit()
 
 # 테스트 프롬프트
-input_text = "role: user, speechAct: 질문하기, content: 주말에 뭐해? 시간 되면 같이 밥 먹으러 가자!"
+input_text = "role: user, speechAct: 질문하기, content: 와 저녁 되니까 야식 땡긴다 ㅋㅋ"
 
 try:
     # 3. 입력 텍스트 토크나이징
@@ -53,9 +53,12 @@ except Exception as e:
     exit()
 
 try:
-    # 5. 출력 결과 디코딩
+     # 5. 출력 결과 디코딩
     print("출력 결과 디코딩 시작...")
-    result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    # 입력 텍스트 길이 계산
+    input_length = len(tokenizer.encode(input_text, add_special_tokens=False))
+    # 생성된 텍스트에서 입력 텍스트 이후의 부분만 디코딩
+    result = tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
     print("출력 결과 디코딩 완료.")
     print("결과:", result)
 except Exception as e:
