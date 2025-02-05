@@ -1,8 +1,8 @@
 import os
 
 # base_folder_path 설정
-base_folder_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/2.Validation/labellingData/preprocessed copy"
-target_folders = ["KAKAO"]
+base_folder_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/0205_split_data"
+target_folders = ["total"]
 
 # 전체 파일 개수를 저장할 변수
 total_file_count = 0
@@ -20,3 +20,5 @@ for folder_name in target_folders:
 
 # 전체 .json 파일 개수 출력
 print(f"\n전체 .json 파일 개수: {total_file_count}")
+
+

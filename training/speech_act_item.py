@@ -3,10 +3,11 @@ import json
 
 ######################################################################
 ## labellingData(원본데이터) "1.KAKAO1", "2.KAKAO2", "3.KAKAO3", "4.KAKAO4"를 돌면서 발화Item 수집
+## 특정 speechAct만 뽑아서 조회하는 코드입니다.
 ######################################################################
 
 # labellingData 폴더 경로 설정
-base_folder_path = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/1.Training/labellingData/preprocessed"
+base_folder_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/1.Training/labellingData/preprocessed copy"
 
 # JSON 파일들에서 speechAct가 "(선언/위임하기)"인 lines의 전체 원소를 모아 저장
 def collect_lines_with_speech_act(base_folder_path, target_speech_act, target_folders, output_file):
@@ -42,8 +43,8 @@ def collect_lines_with_speech_act(base_folder_path, target_speech_act, target_fo
     print(f"Collected {len(collected_lines)} lines with speechAct '{target_speech_act}' saved to {output_file}")
 
 # 실행
-target_speech_act = ""
+target_speech_act = "농담하기"
 target_folders = ["1.KAKAO1", "2.KAKAO2", "3.KAKAO3", "4.KAKAO4"]  # 순차적으로 탐색할 폴더 목록
-output_file = "/hdd/dataset/talkDataSet1/"  # 결과를 저장할 파일 경로
+output_file = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/1.Training/labellingData/preprocessed copy/output.txt"  # 결과를 저장할 파일 경로
 
 collect_lines_with_speech_act(base_folder_path, target_speech_act, target_folders, output_file)

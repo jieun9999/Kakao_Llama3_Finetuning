@@ -1,45 +1,45 @@
 import os
 import json
 
-# 결과를 저장할 파일
-output_file = "output_speech_act_id.txt"
+# 결과를 저장할 파일 (절대 경로로 설정)
+base_folder_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/2.Validation/labellingData/preprocessed copy"
+output_file = os.path.join(base_folder_path, "output_speech_act_id.txt")  # 절대 경로
 
 # 탐색할 폴더
-base_folder_path = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/2.Validation/labellingData/preprocessed"
 folder = "KAKAO"
+folder_path = os.path.join(base_folder_path, folder)  # 절대 경로로 설정
 
 # speechAct의 빈도수를 저장할 딕셔너리
 speech_act_count = {}
 
 # 출력 순서 정의
 output_order = [
-    "일상적으로 반응하기",
-    "질문하기",
-    "정보 제공하기",
-    "긍정감정 표현하기",
-    "부정감정 표현하기",
-    "충고/제안하기",
-    "반박하기",
     "위협하기",
-    "주장하기",
+    "거절하기",
     "사과하기",
+    "인사하기",
     "감사하기",
+    "반박하기",
+    "부정감정 표현하기",
+    "긍정감정 표현하기",
+    "일상적으로 반응하기",
     "요구하기",
     "개인적으로 약속하기",
-    "거절하기",
-    "인사하기",
-    "농담하기",
-    "N/A"
+    "충고/제안하기",
+    "질문하기",
+    "정보 제공하기",
+    "주장하기"
 ]
 
-# 폴더 순회
-if not os.path.isdir(os.path.join(base_folder_path, folder)):
-    print(f"폴더 {folder}가 존재하지 않습니다.")
+# 폴더 확인
+if not os.path.isdir(folder_path):
+    print(f"폴더 {folder_path}가 존재하지 않습니다.")
+    exit()
 
 # 폴더 내 파일 순회
-for file_name in os.listdir(folder):
+for file_name in os.listdir(folder_path):
     if file_name.endswith(".json"):  # JSON 파일만 처리
-        file_path = os.path.join(folder, file_name)
+        file_path = os.path.join(folder_path, file_name)  # 절대 경로로 파일 경로 생성
         try:
             with open(file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)

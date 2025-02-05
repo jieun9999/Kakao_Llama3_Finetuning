@@ -1,39 +1,40 @@
 import os
 import json
 
-##############################################
-# 파일 경로가 상대 경로로 설정되어 있습니다.
-# 실행 시와 스크립트 위치가 바뀌었기 때문에 절대 경로로 변경 후 실행하길 바랍니다. 
-##############################################
+# 부모 경로 설정 (절대 경로)
+base_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/1.Training/labellingData/preprocessed copy"
 
-# 결과를 저장할 파일
-output_file = "output_speech_act_id.txt"
+# 결과를 저장할 파일 (절대 경로로 설정)
+output_file = os.path.join(base_path, "output_speech_act_id.txt")
 
-# 탐색할 폴더들
-folders = ["1.KAKAO1", "2.KAKAO2", "3.KAKAO3", "4.KAKAO4"]
+# 탐색할 폴더들 (절대 경로로 설정)
+folders = [
+    os.path.join(base_path, "1.KAKAO1"),
+    os.path.join(base_path, "2.KAKAO2"),
+    os.path.join(base_path, "3.KAKAO3"),
+    os.path.join(base_path, "4.KAKAO4")
+]
 
 # speechAct의 빈도수를 저장할 딕셔너리
 speech_act_count = {}
 
 # 출력 순서 정의
 output_order = [
-    "일상적으로 반응하기",
-    "질문하기",
-    "정보 제공하기",
-    "긍정감정 표현하기",
-    "부정감정 표현하기",
-    "충고/제안하기",
-    "반박하기",
     "위협하기",
-    "주장하기",
+    "거절하기",
     "사과하기",
+    "인사하기",
     "감사하기",
+    "반박하기",
+    "부정감정 표현하기",
+    "긍정감정 표현하기",
+    "일상적으로 반응하기",
     "요구하기",
     "개인적으로 약속하기",
-    "거절하기",
-    "인사하기",
-    "농담하기",
-    "N/A"
+    "충고/제안하기",
+    "질문하기",
+    "정보 제공하기",
+    "주장하기"
 ]
 
 # 폴더 순회

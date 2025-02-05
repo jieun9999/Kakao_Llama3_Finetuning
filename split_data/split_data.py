@@ -4,14 +4,16 @@ from collections import defaultdict
 from math import floor
 
 # 유동적으로 변경할 폴더명
-folder_name = "0124_split_data"  
+folder_name = "0205_split_data"  
 
 # 데이터 경로 설정
-data_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/total'
-train_dir = '1.train'
-val_dir = '2.validation'
-test_dir = '3.test'
+base_dir = f'/workspace/hdd/2.per_subject_text_daily_conversation_data/{folder_name}'
+data_dir = os.path.join(base_dir, 'total')
+train_dir = os.path.join(base_dir, '1.train')
+val_dir = os.path.join(base_dir, '2.validation')
+test_dir = os.path.join(base_dir, '3.test')
 
+# train, validation, test 디렉토리 생성
 os.makedirs(train_dir, exist_ok=True)
 os.makedirs(val_dir, exist_ok=True)
 os.makedirs(test_dir, exist_ok=True)
@@ -28,29 +30,28 @@ speech_act_distribution = {
 allocated_files = set()
 
 # 희귀 발화 전략 가진 데이터셋 먼저 저장
+# train + validation 합산
 speech_act_counts = {
-    "농담하기": 3,
-    "위협하기": 49,
-    "거절하기": 440,
-    "사과하기": 512,
-    "인사하기": 930,
-    "감사하기": 1870,
-    "N/A": 2719,
-    "반박하기": 2846,
-    "부정감정 표현하기": 5246,
-    "긍정감정 표현하기": 5467,
-    "일상적으로 반응하기": 6169,
-    "요구하기": 6737,
-    "개인적으로 약속하기": 13859,
-    "충고/제안하기": 28469,
-    "질문하기": 198360,
-    "정보 제공하기": 289870,
-    "주장하기": 459285
+    "위협하기": 40,
+    "거절하기": 380,
+    "사과하기": 449,
+    "인사하기": 734,
+    "감사하기": 1676,
+    "반박하기": 2452,
+    "부정감정 표현하기": 4571,
+    "긍정감정 표현하기": 4650,
+    "일상적으로 반응하기": 5025,
+    "요구하기": 5837,
+    "개인적으로 약속하기": 12285,
+    "충고/제안하기": 24918,
+    "질문하기": 174774,
+    "정보 제공하기": 249110,
+    "주장하기": 406198
 }
 
 def findRepSpeechAct(content):
     for speech_act, _ in speech_act_counts.items():
-        if speech_act in content :
+        if speech_act in content:
             return speech_act
 
 # 데이터 읽기 및 발화 전략별 데이터 수 세기
@@ -62,13 +63,13 @@ for filename in os.listdir(data_dir):
         continue
     with open(filepath, 'r') as f:
         content = f.read()
-        #speech_act_counts에서 위에서부터 포함되는 게 있나 봐야함
+        # speech_act_counts에서 위에서부터 포함되는 게 있나 봐야함
         speech_act = findRepSpeechAct(content)
         speech_act_data[speech_act].append((filename, content))
         overall_speech_act_counts[speech_act] += 1
 
-        #speech_act_counts를 수정
-        #줄이고 0인 건 remove
+        # speech_act_counts를 수정
+        # 줄이고 0인 건 remove
 
         data = json.loads(content)
 
@@ -78,9 +79,9 @@ for filename in os.listdir(data_dir):
 
             speech_act = message['speechAct']
 
-            if ( speech_act_counts[speech_act] <= 0 ) :
-                speech_act_counts.remove(speech_act)
-            else :
+            if speech_act_counts[speech_act] <= 0:
+                speech_act_counts.pop(speech_act, None)
+            else:
                 speech_act_counts[speech_act] -= 1
 
 
