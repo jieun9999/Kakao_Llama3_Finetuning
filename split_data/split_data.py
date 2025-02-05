@@ -3,8 +3,11 @@ import json
 from collections import defaultdict
 from math import floor
 
+# 유동적으로 변경할 폴더명
+folder_name = "0124_split_data"  
+
 # 데이터 경로 설정
-data_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/total'
+data_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/total'
 train_dir = '1.train'
 val_dir = '2.validation'
 test_dir = '3.test'

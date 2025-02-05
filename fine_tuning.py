@@ -8,11 +8,6 @@ from trl import SFTTrainer
 import wandb
 import torch
 
-# # GPU 메모리 사용량을 50%로 제한
-# torch.cuda.set_per_process_memory_fraction(0.5, 0)  # GPU 0번 기준
-
-# 환경 변수를 설정하여 tokenizers 병렬 처리를 활성화
-os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
 ## 1. 데이터 준비
 # 주어진 디렉토리에서 JSON파일을 읽어와 role, speechAct, content를 조합하여 하나의 문자열로 변환하고 Hugging Face의 Dataset 객체를 반환
@@ -102,7 +97,7 @@ config = wandb.config
 training_args = TrainingArguments(
     output_dir="./results",  # 모델 저장 경로
     overwrite_output_dir=True,  # 기존 결과 덮어쓰기
-    dataloader_num_workers=4,  # 데이터 로드 워커 수
+    dataloader_num_workers=4,  # 데이터 로딩을 하기위해 몇 개의 CPU 프로세스를 사용할 것인지를 의미
 
     num_train_epochs=3,  # 훈련 에포크 수
     per_device_train_batch_size=8,  # GPU 당 한 번에 1개의 샘플을 처리 (한 번에 처리할 시퀀스의 개수를 정의)

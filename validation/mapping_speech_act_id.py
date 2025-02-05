@@ -1,11 +1,11 @@
 import os
 import json
 
-##### 다음은 (COPY_preprocessed 폴더)를 덮어쓰기 하는 파일입니다 ####
-# COPY_preprocessed : preprocessed(역할기반으로 전처리된 데이터)를 복제한 폴더입니다.
+##### 다음은 ( "2.Validation/labellingData/preprocessed copy)를 덮어쓰기 하는 파일입니다 ####
+# 전제조건: speechAct가 N/A인 파일이 삭제되었고, content에 ‘*’가 포함되어있는 파일을 삭제한 역할기반 데이터 되어 있는 상태에서 실행하는 코드입니다.
+# 실행 시: speechAct를 매핑하고 system 메서지를 삭제합니다.
 
-# labellingData 폴더 경로 설정
-base_folder_path = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/2.Validation/labellingData/COPY_preprocessed"
+base_folder_path = "/workspace/hdd/2.per_subject_text_daily_conversation_data/1.data/2.Validation/labellingData/preprocessed copy"
 
 def modify_speech_act(speech_act):
     # speechAct 수정 로직
@@ -56,6 +56,11 @@ def modify_lines_with_speech_act_and_role(base_folder_path, target_folder):
                     try:
                         data = json.load(file)
                         modified = False  # 수정 여부 플래그
+
+                        # "role": "system" 메시지 제거
+                        data["messages"] = [
+                            message for message in data["messages"] if message.get("role") != "system"
+                        ]
 
                         for message in data["messages"]:
                             # speechAct 수정

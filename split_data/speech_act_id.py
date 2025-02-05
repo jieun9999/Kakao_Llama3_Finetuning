@@ -1,11 +1,14 @@
 import os
 import json
 
+# 유동적으로 변경할 폴더명
+folder_name = "0124_split_data"  
+
 # 결과를 저장할 파일
-output_file = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_dataoutput_speech_act_id.txt"
+output_file = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/output_speech_act_id.txt"
 
 # 탐색할 폴더
-base_folder_path = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/3.test"
+base_folder_path = "/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/3.test"
 
 # speechAct의 빈도수를 저장할 딕셔너리
 speech_act_count = {}

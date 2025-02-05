@@ -2,10 +2,13 @@ import os
 import json
 from collections import defaultdict
 
+# 유동적으로 변경할 폴더명
+folder_name = "0124_split_data"  
+
 # 경로 설정
-train_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/1.train'
-val_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/2.validation'
-test_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/3.test'
+train_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/1.train'
+val_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/2.validation'
+test_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/3.test'
 
 # Speech Act 리스트 (기존 그대로)
 speech_acts = ["농담하기", "위협하기", "거절하기", "사과하기", "인사하기", "감사하기", "N/A", "반박하기", 

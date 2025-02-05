@@ -1,10 +1,13 @@
 import os
 
+# 유동적으로 변경할 폴더명
+folder_name = "0124_split_data"  
+
 # 경로 설정
-data_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/total'
-train_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/1.train'
-val_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/2.validation'
-test_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/proprocessed_data/3.test'
+data_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/total'
+train_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/1.train'
+val_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/2.validation'
+test_dir = '/hdd/dataset/talkDataSet1/2.per_subject_text_daily_conversation_data/1.data/{folder_name}/3.test'
 
 # total 폴더의 파일명 배열 생성
 data_files = os.listdir(data_dir)
