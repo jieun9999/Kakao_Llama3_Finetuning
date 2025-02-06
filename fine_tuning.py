@@ -32,11 +32,11 @@ def load_and_process_data(dataset_dir):
     return Dataset.from_dict({"dialogue": [conversation["dialogue"] for conversation in all_data]})
 
 # Training 데이터 경로
-dataset_dir_train = "/workspace/2.per_subject_text_daily_conversation_data/proprocessed_data/1.train" 
+dataset_dir_train = "/workspace/hdd/2.per_subject_text_daily_conversation_data/0205_split_data/1.train" 
 dataset_train = load_and_process_data(dataset_dir_train)
 
 # Validation 데이터 경로
-dataset_dir_val = "/workspace/2.per_subject_text_daily_conversation_data/proprocessed_data/2.validation"
+dataset_dir_val = "/workspace/hdd/2.per_subject_text_daily_conversation_data/0205_split_data/2.validation"
 dataset_val = load_and_process_data(dataset_dir_val)
 # print(dataset_train[0])  # 첫 번째 샘플 출력
 
@@ -91,13 +91,13 @@ tokenized_dataset_val = dataset_val.map(preprocess_function, batched=True)
 ## 4. 훈련 설정
 
 # wandb 초기화
-wandb.init(project="huggingface", name="experiment_1")
+wandb.init(project="huggingface", name="0205_test_model")
 config = wandb.config
 
 training_args = TrainingArguments(
-    output_dir="./results",  # 모델 저장 경로
+    output_dir="/workspace/ssd/0205_fine_tuned_model",  # 모델 저장 경로
     overwrite_output_dir=True,  # 기존 결과 덮어쓰기
-    dataloader_num_workers=4,  # 데이터 로딩을 하기위해 몇 개의 CPU 프로세스를 사용할 것인지를 의미
+    dataloader_num_workers=12,  #  데이터 로딩 작업을 수행하는 워커 프로세스의 수, 코어 수보다 약간 작게 설정함
 
     num_train_epochs=3,  # 훈련 에포크 수
     per_device_train_batch_size=8,  # GPU 당 한 번에 1개의 샘플을 처리 (한 번에 처리할 시퀀스의 개수를 정의)
@@ -128,10 +128,6 @@ trainer.train()
 
 # wandb 세션 종료
 wandb.finish()
-
-# 모델 저장
-model.save_pretrained("./fine_tuned_model")
-tokenizer.save_pretrained("./fine_tuned_model")
 
 # GPU 메모리 해제
 torch.cuda.empty_cache()  # 캐시 메모리 해제
