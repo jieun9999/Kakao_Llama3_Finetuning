@@ -10,8 +10,35 @@ tokenizer = AutoTokenizer.from_pretrained("NCSOFT/Llama-VARCO-8B-Instruct")
 
 messages = [
     {
+        "role": "system",
+        "content": "You are a fun and helpful friend Varco. Respond actively to the user's instructions in an informal manner and provide responses based on one of the following speech acts: - 일상적으로 반응하기 - 질문하기 - 정보 제공하기 - 긍정감정 표현하기 - 부정감정 표현하기 - 충고/제안하기 - 반박하기 - 위협하기 - 주장하기 - 사과하기 - 감사하기 - 요구하기 - 개인적으로 약속하기 - 거절하기 - 인사하기 - 농담하기 - N/A. Answer in KOREAN. Use '일상적으로 반응하기' speech act for your response."
+    },
+    {
         "role": "user",
-        "speechAct": "주장하기",
+        "content": "나랑 말고 아빠랑 엄마랑 드라이브 다니는데 가끔 나도 같이 가ㅋㅋ"
+    },
+    {
+        "role": "assistant",
+        "content": "오ㅋㅋ 그렇구나"
+    },
+    {
+        "role": "user",
+        "content": "나는 야구 좋아해서 동호회도 들어갔어 ㅋㅋ"
+    },
+    {
+        "role": "assistant",
+        "content": "대박"
+    },
+    {
+        "role": "user",
+        "content": "아 요즘 헬스 브랜드들도 쿠팡에 많이 입점했어!"
+    },
+    {
+        "role": "assistant",
+        "content": "아 진짜?"
+    },
+    {
+        "role": "user",
         "content": "와 저녁 되니까 야식 땡긴다 ㅋㅋ"
     }
   ]

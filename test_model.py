@@ -15,24 +15,20 @@ model = AutoModelForCausalLM.from_pretrained(
 # 테스트 프롬프트
 messages = [
     {
+        "role": "system",
+        "content": "You are a fun and helpful friend Varco. Respond actively to the user's instructions in an informal manner and provide responses based on one of the following speech acts: - 일상적으로 반응하기 - 질문하기 - 정보 제공하기 - 긍정감정 표현하기 - 부정감정 표현하기 - 충고/제안하기 - 반박하기 - 위협하기 - 주장하기 - 사과하기 - 감사하기 - 요구하기 - 개인적으로 약속하기 - 거절하기 - 인사하기 - 농담하기 - N/A. Use '일상적으로 반응하기' speech act for your response. Answer in KOREAN"
+    },
+    {
         "role": "user",
-        "speechAct": "주장하기",
         "content": "와 저녁 되니까 야식 땡긴다 ㅋㅋ"
     }
 ]
 
-# 입력 텐서 생성
-inputs = tokenizer.apply_chat_template(
-    messages, 
-    return_tensors="pt", 
-    padding=True, 
-    truncation=True
-).to(model.device)  # 모델 디바이스에 맞게 이동
+inputs = tokenizer.apply_chat_template(messages, return_tensors="pt", padding=True, truncation=True).to(model.device)
 
-# 입력 텐서 디코딩
-print("입력 텍스트 디코딩:")
-print(tokenizer.decode(inputs[0]))  # 첫 번째 시퀀스를 디코딩
-
+# 입력 텐서 구조 확인
+print("입력 텐서 구조:")
+print(inputs)
 
 # 종료 토큰 ID 설정
 eos_token_id = [
@@ -50,6 +46,10 @@ outputs = model.generate(
     pad_token_id=tokenizer.eos_token_id
 )
 
+# 출력 텐서 구조 확인
+# print("출력 텐서 구조:")
+# print(outputs)
+
 # 3. 출력 결과 디코딩
 print("출력 결과:")
-print(tokenizer.decode(outputs[0]))
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))  # 2차원일 경우 인덱스 수정 필요
