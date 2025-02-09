@@ -2,6 +2,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 from transformers import BitsAndBytesConfig
 import wandb
 
+# sentence_cut.py에서 limit_sentences_with_fallback 함수 가져오기
+from sentence_cut import limit_sentences_with_fallback
+
 # W&B 초기화
 wandb.init(project="llm_prompt_tracking", name="llm_generation_run")
 
@@ -106,20 +109,23 @@ outputs = model.generate(
     attention_mask=attention_mask,  # attention_mask 추가
     eos_token_id=eos_token_id,
     max_new_tokens= 50 + input_length,
-    no_repeat_ngram_size=4, # 값이 커질수록 더 긴 반복 구문을 방지하므로, 텍스트가 더 다양해질 가능성이 높습니다.
+    no_repeat_ngram_size= 3, # 값이 커질수록 더 긴 반복 구문을 방지하므로, 텍스트가 더 다양해질 가능성이 높습니다.
+    repetition_penalty=2.0,
     pad_token_id=tokenizer.eos_token_id
 )
 
 # 출력 결과 디코딩
 generated_text = tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
 
+# 문장 자르기 함수 실행
+limited_text = limit_sentences_with_fallback(generated_text, max_sentences=3)
 
 # W&B에 로그 기록
 wandb.log({
     "messages": messages,
-    "generated_text": generated_text
+    "generated_text": limited_text  # 자른 텍스트를 로그에 기록
 })
 
 # 결과 출력
 print("출력 결과:")
-print(generated_text)
+print(limited_text)
