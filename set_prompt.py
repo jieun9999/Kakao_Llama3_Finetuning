@@ -194,8 +194,8 @@ def modify_prompt_gemma2():
                 obj["role"] = "model"
         PROMPT_Gemma2[key] = modified_prompt
 
-    result = json.dumps(PROMPT_Gemma2, indent=2, ensure_ascii=False)
-    return result
+    # JSON 문자열로 변환하지 않고 딕셔너리를 그대로 반환
+    return PROMPT_Gemma2
 
 #Llama 프롬프트를 받아 TQM-LLM 프롬프트 형식에 맞게 바꾸는 메서드입니다.
 def modify_prompt_T3Q_LLM():

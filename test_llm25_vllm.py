@@ -46,7 +46,10 @@ model_names = [
 def load_llm(model_name):
     llm = LLM(model=model_name, 
               quantization="bitsandbytes", # BitsAndBytes 양자화 사용
-              load_format="bitsandbytes")  # 로드 형식을 명시적으로 설정
+              load_format="bitsandbytes", # 로드 형식을 명시적으로 설정
+              max_model_len=2048,  # 시퀀스 길이 제한
+              gpu_memory_utilization=0.5, # GPU 사용률 제한
+              )  
     return llm
 
 
