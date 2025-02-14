@@ -1,6 +1,6 @@
 from set_prompt import get_prompt
 from vllm import LLM, SamplingParams
-from transformers import AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import pandas as pd
 import copy
 
@@ -34,7 +34,12 @@ model_names = [
 
 # 주어진 모델 이름에 따라 vLLM을 로드하는 함수
 def load_llm(model_name):
-    llm = LLM(model_name=model_name) 
+
+    #양자화 설정 추가
+    quantization_config = BitsAndBytesConfig(load_in_8bit=True) 
+    model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config, device_map="auto")  # GPU 자동 할당
+
+    llm = LLM(model = model) 
     return llm
 
 # 주어진 모델 이름에 따라 Hugging Face 토크나이저를 로드하는 함수
