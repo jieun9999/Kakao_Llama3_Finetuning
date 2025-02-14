@@ -1,8 +1,18 @@
 from set_prompt import get_prompt
 from vllm import LLM, SamplingParams
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+from transformers import AutoTokenizer
 import pandas as pd
 import copy
+import os
+import torch
+
+# PYTORCH_CUDA_ALLOC_CONF 환경 변수 설정
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
+# 이 환경 변수는 PyTorch의 메모리 관리 방식을 최적화하여 GPU 메모리 단편화를 줄이는 데 사용됩니다.
+
+# GPU 캐시 초기화
+torch.cuda.empty_cache()
+torch.cuda.reset_peak_memory_stats()
 
 model_names = [
     "NCSOFT/Llama-VARCO-8B-Instruct",
@@ -34,13 +44,11 @@ model_names = [
 
 # 주어진 모델 이름에 따라 vLLM을 로드하는 함수
 def load_llm(model_name):
-
-    #양자화 설정 추가
-    quantization_config = BitsAndBytesConfig(load_in_8bit=True) 
-    model = AutoModelForCausalLM.from_pretrained(model_name, quantization_config=quantization_config, device_map="auto")  # GPU 자동 할당
-
-    llm = LLM(model = model) 
+    llm = LLM(model=model_name, 
+              quantization="bitsandbytes", # BitsAndBytes 양자화 사용
+              load_format="bitsandbytes")  # 로드 형식을 명시적으로 설정
     return llm
+
 
 # 주어진 모델 이름에 따라 Hugging Face 토크나이저를 로드하는 함수
 def load_tokenizer(model_name):
