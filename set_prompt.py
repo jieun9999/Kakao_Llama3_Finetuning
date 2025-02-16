@@ -4,7 +4,7 @@ PROMPT_Llama = {
     "one-shot-casual": [
             {
                 "role": "system",
-                "content": "너는 친근하고 따뜻한 말투로 대화하는 친구야. 너무 형식적이지 않고, 자연스럽고 가벼운 톤으로 이야기해줘.",
+                "content": "You are an AI that communicates in a friendly and warm tone. Speak in a natural and casual manner, not too formal. And make sure to always respond in Korean.",
             },
             {
                 "role": "user",
@@ -17,28 +17,12 @@ PROMPT_Llama = {
             {
                 "role": "user",
                 "content": "점심 뭐 먹을까 고민 중이야. 추천 좀 해줘!",
-            },
-            {
-                "role": "assistant",
-                "content": "음~ 오늘 같은 날엔 상큼한 거 어때? 냉메밀국수나 샐러드도 좋고! 아님 걍 네가 제일 먹고 싶은 거 먹어야지 ㅎㅎ",
-            },
-            {
-                "role": "user",
-                "content": "너라면 뭘 고를 거야?",
-            },
-            {
-                "role": "assistant",
-                "content": "나는 샐러드 먹을래! 요즘 가벼운 게 좋더라고 ㅎㅎ 너는 뭐가 땡겨?",
-            },
-            {
-                "role": "user",
-                "content": "오늘은 뭔가 시원한 게 좋을 것 같아!",
             }
         ],
     "one-shot-empathic": [
         {
             "role": "system",
-            "content": "너는 따뜻하고 공감 능력이 뛰어난 친구야. 사용자의 감정을 이해하고, 자연스럽고 진정성 있게 반응해줘.",
+            "content": "You are an AI with warmth and great empathy. Understand the user's emotions and respond naturally and sincerely. Make sure to always answer in Korean.",
         },
         {
             "role": "user",
@@ -59,17 +43,10 @@ PROMPT_Llama = {
         {
             "role": "user",
             "content": "아직 할 게 많아서 쉴 시간이 없어…",
-        },
-        {
-            "role": "assistant",
-            "content": "으악 진짜 너무 힘들겠다… 그래도 네가 엄청 열심히 하고 있다는 거, 나도 알고 있어! 조금만 더 힘내고, 끝나면 꼭 맛있는 거라도 먹자!",
-        },
-        {
-            "role": "user",
-            "content": "맞아… 끝나면 나 맛있는 거 먹으러 가야겠어!",
         }
     ]
 }
+
 
 PROMPT_BASIC_CASUAL = """ 
 [시스템]
@@ -251,18 +228,18 @@ def modify_prompt_Llama2():
 # return : casual_prompt, empathic_prompt, formatted
 # formatted는 apply_chat_template 적용 여부를 위한 bool 값입니다. 
 def get_prompt(modelname: str):
-    if modelname == "HumanF-MarkrAI/Gukbap-Gemma2-9B" or modelname == "rtzr/ko-gemma-2-9b-it" : 
-        PROMPT_Gemma2 = modify_prompt_gemma2()
-        return PROMPT_Gemma2["one-shot-casual"], PROMPT_Gemma2["one-shot-empathic"], True
-    elif modelname == "T3Q-LLM/T3Q-LLM-TE-NLI-Lora16-v1.0" or modelname == "yanolja/EEVE-Korean-Instruct-10.8B-v1.0" : 
-        PROMPT_T3Q = modify_prompt_T3Q_LLM()
-        return PROMPT_T3Q["one-shot-casual"], PROMPT_T3Q["one-shot-empathic"], False
-    elif modelname == "kaistalin-omnious/ko-en-llama2-13b-aligned":
-        PROMPT_Llama2 = modify_prompt_Llama2()
-        return PROMPT_Llama2["one-shot-casual"], PROMPT_Llama2["one-shot-empathic"], False
-    elif modelname == "openchat/openchat-3.5-0106" or "skt/kogpt2-base-v2" : 
-        return PROMPT_ALPACA_CASUAL, PROMPT_ALPACA_EMPATHIC, False
-    else : #Llama, GLM, QWEN, mistral, solar, KULLM, Orion
-        return PROMPT_Llama["one-shot-casual"], PROMPT_Llama["one-shot-empathic"], True
+    # if modelname == "HumanF-MarkrAI/Gukbap-Gemma2-9B" or modelname == "rtzr/ko-gemma-2-9b-it" : 
+    #     PROMPT_Gemma2 = modify_prompt_gemma2()
+    #     return PROMPT_Gemma2["one-shot-casual"], PROMPT_Gemma2["one-shot-empathic"], True
+    # elif modelname == "T3Q-LLM/T3Q-LLM-TE-NLI-Lora16-v1.0" or modelname == "yanolja/EEVE-Korean-Instruct-10.8B-v1.0" : 
+    #     PROMPT_T3Q = modify_prompt_T3Q_LLM()
+    #     return PROMPT_T3Q["one-shot-casual"], PROMPT_T3Q["one-shot-empathic"], False
+    # elif modelname == "kaistalin-omnious/ko-en-llama2-13b-aligned":
+    #     PROMPT_Llama2 = modify_prompt_Llama2()
+    #     return PROMPT_Llama2["one-shot-casual"], PROMPT_Llama2["one-shot-empathic"], False
+    # elif modelname == "openchat/openchat-3.5-0106" or "skt/kogpt2-base-v2" : 
+    #     return PROMPT_ALPACA_CASUAL, PROMPT_ALPACA_EMPATHIC, False
+    # else : #Llama, GLM, QWEN, mistral, solar, KULLM, Orion
+    return PROMPT_Llama["one-shot-casual"], PROMPT_Llama["one-shot-empathic"], True
     
     
