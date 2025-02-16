@@ -14,17 +14,19 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 torch.cuda.empty_cache()
 
 model_names = [
-    "NCSOFT/Llama-VARCO-8B-Instruct",
-    "KISTI-KONI/KONI-Llama3-8B-Instruct-20240729"
+    "THUDM/glm-4-9b-chat",
+    "mistralai/Mistral-Nemo-Instruct-2407"
 ]
     # ## 2개씩 끊어서 작업
-    # "THUDM/glm-4-9b-chat",
-    # "mistralai/Mistral-Nemo-Instruct-2407",
+    # "NCSOFT/Llama-VARCO-8B-Instruct",
+    # "KISTI-KONI/KONI-Llama3-8B-Instruct-20240729" 
+    # ======완======
+    
     # "MLP-KTLim/llama-3-Korean-Bllossom-8B",
-
-    # ## 라마 모델과 같은 형식을 쓰지만, 성능 면에서 순위가 낮은 모델
     # "davidkim205/Ko-Llama-3-8B-Instruct",
     # "CarrotAI/Llama3-Ko-Carrot-8B-it",
+
+    # ## 라마 모델과 같은 형식을 쓰지만, 성능 면에서 순위가 낮은 모델
     # "allganize/Llama-3-Alpha-Ko-8B-Instruct",
     # "kaistalin-omnious/ko-en-llama2-13b-aligned",
     # "4n3mone/glm-4-ko-9b-chat",
