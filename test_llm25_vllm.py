@@ -14,17 +14,15 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 torch.cuda.empty_cache()
 
 model_names = [
-    "THUDM/glm-4-9b-chat",
     "mistralai/Mistral-Nemo-Instruct-2407"
 ]
     # ## 2개씩 끊어서 작업
     # "NCSOFT/Llama-VARCO-8B-Instruct",
     # "KISTI-KONI/KONI-Llama3-8B-Instruct-20240729" 
-    # ======완======
-    
-    # "MLP-KTLim/llama-3-Korean-Bllossom-8B",
-    # "davidkim205/Ko-Llama-3-8B-Instruct",
-    # "CarrotAI/Llama3-Ko-Carrot-8B-it",
+    # "MLP-KTLim/llama-3-Korean-Bllossom-8B"
+    # "davidkim205/Ko-Llama-3-8B-Instruct"
+    # "CarrotAI/Llama3-Ko-Carrot-8B-it"
+    # ======완=====
 
     # ## 라마 모델과 같은 형식을 쓰지만, 성능 면에서 순위가 낮은 모델
     # "allganize/Llama-3-Alpha-Ko-8B-Instruct",
@@ -39,6 +37,7 @@ model_names = [
     # "Undi95/Toppy-M-7B"
 
     # ## 라마 프롬프트와 다른 형식을 쓰는 모델
+    # "THUDM/glm-4-9b-chat"
     # "HumanF-MarkrAI/Gukbap-Gemma2-9B",
     # "rtzr/ko-gemma-2-9b-it",
     # "T3Q-LLM/T3Q-LLM-TE-NLI-Lora16-v1.0",
@@ -55,14 +54,16 @@ def load_llm(model_name):
               load_format="bitsandbytes", # 로드 형식을 명시적으로 설정
             #   max_model_len=4096,  # 시퀀스 길이 제한
             #   gpu_memory_utilization=0.7, # GPU 사용률 제한
-               trust_remote_code=True  # 원격 코드 신뢰 설정
+               trust_remote_code=True, # 원격 코드 신뢰 설정
+               max_model_len=4096  # 시퀀스 길이를 줄여 메모리 사용량 감소
               )  
     return llm
 
 
 # 주어진 모델 이름에 따라 Hugging Face 토크나이저를 로드하는 함수
 def load_tokenizer(model_name):
-    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    tokenizer = AutoTokenizer.from_pretrained(model_name,
+                                            trust_remote_code=True)  # 원격 코드 신뢰 설정
     tokenizer.eos_token = tokenizer.eos_token  # 패딩 토큰 설정
     tokenizer.padding_side = 'right'  # 패딩 방향 설정
     return tokenizer
