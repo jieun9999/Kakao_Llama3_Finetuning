@@ -45,14 +45,38 @@ for index, row in tqdm(df.iterrows(), total=df.shape[0]): #엑셀 파일의 각 
 print("데이터 삽입 완료!")
 
 # 쿼리 실행하기
-query_text = "저녁 메뉴 추천해줘" 
+query_text = "점심에 뭐먹을까?" 
 query_embedding = model.encode([query_text]) 
 
-# 쿼리 실행
-results = collection.query(
-    query_embeddings= query_embedding,
-    where={"type": "answer"},  # type이 "answer"인 데이터만 검색
-    n_results=3
+# Step 1. 질문과 유사한 질문 검색
+question_results = collection.query(
+    query_embeddings=question_embedding,
+    where={"type": "question"},  # type이 "question"인 데이터만 검색
+    n_results=1  # 가장 유사한 질문 1개만 가져옴
 )
 
-print(results)
+# question_results의 예시
+# {
+#     'ids': ['question_12'],  # 검색된 질문의 ID
+#     'embeddings': [
+#         [0.123, 0.456, ..., 0.789]  # 검색 결과의 임베딩 (768차원 벡터)
+#     ],
+#     'documents': ['오늘 점심 도시락 뭐 싸왔어?'],  # 검색된 질문 텍스트
+#     'metadatas': [
+#         {'type': 'question'}  # 검색된 데이터의 메타데이터
+#     ],
+#     'distances': [0.234]  # 검색된 질문과 쿼리 간의 거리 (유사도)
+# }
+
+
+# Step 2. 해당 질문의 ID를 기반으로 응답 검색
+if question_results['ids']:
+    matched_question_id = question_results['ids'][0] # 가장 유사한 질문의 ID
+    answer_id = matched_question_id.replace("question_", "answer_") # 대응되는 응답 ID 추출
+
+    # 응답 검색
+    answer_results = collection.get(ids=[answer_id])  # ID로 응답 검색
+    print("질문:", question_results['documents'][0])
+    print("응답:", answer_results['documents'][0])
+else:
+    print("유사한 질문을 찾을 수 없습니다.")
